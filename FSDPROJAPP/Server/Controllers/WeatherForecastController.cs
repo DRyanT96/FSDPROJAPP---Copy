@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FSDPROJAPP.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
