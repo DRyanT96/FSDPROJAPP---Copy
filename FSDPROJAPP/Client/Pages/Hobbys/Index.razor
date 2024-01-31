@@ -1,0 +1,74 @@
+﻿@page "/hobbys/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">Hobbies</h3>
+<br />
+
+<a href="/hobbys/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Hobby
+</a>
+<br />
+<br />
+
+@if (Hobbys == null)
+{
+    <div class="alert alert-info">Loading Hobbys...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Names</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hobby in Hobbys)
+            {
+                <tr>
+                    <td>@hobby.Name</td>
+                    <td>
+                        <a href="/hobbys/view/@hobby.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/hobbys/edit/@hobby.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(hobby.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Hobby>? Hobbys;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Hobbys = await _client.GetFromJsonAsync<List<Hobby>>($"{Endpoints.HobbysEndpoint}");
+    }
+
+    async Task Delete(int hobbyId)
+    {
+        if (Hobbys != null)
+        {
+            var hobby = Hobbys.First(q => q.Id == hobbyId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {hobby.Name}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.HobbysEndpoint}/{hobbyId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

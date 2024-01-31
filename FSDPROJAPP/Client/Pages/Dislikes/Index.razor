@@ -1,0 +1,74 @@
+﻿@page "/dislikes/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">Dislikes</h3>
+<br />
+
+<a href="/dislikes/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Dislike
+</a>
+<br />
+<br />
+
+@if (Dislikes == null)
+{
+    <div class="alert alert-info">Loading Dislikes...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Names</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dislike in Dislikes)
+            {
+                <tr>
+                    <td>@dislike.Name</td>
+                    <td>
+                        <a href="/dislikes/view/@dislike.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/dislikes/edit/@dislike.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(dislike.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Dislike>? Dislikes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");
+    }
+
+    async Task Delete(int dislikeId)
+    {
+        if (Dislikes != null)
+        {
+            var dislike = Dislikes.First(q => q.Id == dislikeId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {dislike.Name}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.DislikesEndpoint}/{dislikeId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}
