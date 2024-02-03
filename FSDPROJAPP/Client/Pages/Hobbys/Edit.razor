@@ -1,0 +1,23 @@
+﻿@page "/hobbys/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Hobby</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditHobby" hobby="hobby" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Hobby? hobby = new Hobby();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        hobby = await _client.GetFromJsonAsync<Hobby>($"{Endpoints.HobbysEndpoint}/{id}");
+    }
+
+    async Task  EditHobby()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.HobbysEndpoint}/{id}", hobby);
+        _navManager.NavigateTo("/hobbys/");
+    }
+}

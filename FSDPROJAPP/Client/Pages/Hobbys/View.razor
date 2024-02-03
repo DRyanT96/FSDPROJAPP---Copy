@@ -1,0 +1,20 @@
+﻿@page "/hobbys/view/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent hobby="hobby" Disabled="true" />
+
+
+@code {
+    [Parameter] public int id { get; set; }
+    Hobby? hobby = new Hobby();
+    protected async override Task OnParametersSetAsync()
+    {
+        hobby = await
+        _client.GetFromJsonAsync<Hobby>($"{Endpoints.HobbysEndpoint}/{id}");
+    }
+}
+

@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Hobbys\Create.razor" />
+    <Content Remove="Pages\Hobbys\Edit.razor" />
+    <Content Remove="Pages\Hobbys\FormComponent.razor" />
+    <Content Remove="Pages\Hobbys\View.razor" />
+    <Content Remove="Pages\Profiles\Create.razor" />
+    <Content Remove="Pages\Profiles\Edit.razor" />
+    <Content Remove="Pages\Profiles\FormComponent.razor" />
+    <Content Remove="Pages\Profiles\View.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.14" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.14" />
@@ -20,10 +31,6 @@
 
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Subscriptions\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,93 @@
+﻿@page "/Fumble PLUS/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+
+<h3 class="card-title">Fumble PLUS</h3>
+<br />
+
+<a href="/subscriptions/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Subscription
+</a>
+<br />
+<br />
+
+@if (Subscriptions == null)
+{
+    <div class="alert alert-info">Loading Subscriptions...</div>
+}
+else
+{
+    <table class="table table-responsive" id="subscriptionsTable">
+        <thead>
+            <tr>
+                <th>Subscription Id</th>
+                @*<th>Customer License</th>*@
+                <th>Date</th>
+                <th>Duration in days</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subscription in Subscriptions)
+            {
+                <tr>
+                    <td>@subscription.Id</td>
+                    @*<td>@subscription.Customer.DrivingLicense</td>*@
+                    <td>@subscription.DateCreated.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@(subscription.DateIn != null ? (subscription.DateIn - subscription.DateOut).TotalDays.ToString() : "To Be Determined")</td>
+                    <td>@subscription.Profile.Phonenumber</td>
+                    <td>
+                        <a href="/subscriptions/view/@subscription.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/subscriptions/edit/@subscription.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(subscription.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Subscription>? Subscriptions;
+    private DateTime nullDT = new DateTime(1, 1, 1, 0, 0, 0);
+
+    protected async override Task OnInitializedAsync()
+    {
+        Subscriptions = await _client.GetFromJsonAsync<List<Subscription>>($"{Endpoints.SubscriptionsEndpoint}");
+    }
+
+    async Task Delete(int subscriptionId)
+    {
+        if (Subscriptions != null)
+        {
+            var subscription = Subscriptions.First(q => q.Id == subscriptionId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {subscription.Id}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.SubscriptionsEndpoint}/{subscriptionId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#subscriptionsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#subscriptionsTable");
+    }
+}

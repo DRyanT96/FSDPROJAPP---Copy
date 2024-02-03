@@ -17,7 +17,7 @@ namespace FSDPROJAPP.Server.Data
         }
 
         public DbSet<Profile> Profiles { get; set; }
-        public DbSet<Preference> Preferences { get; set; }
+        //public DbSet<Preference> Preferences { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Detail> Details { get; set; }
         public DbSet<Hobby> Hobbys { get; set; }
@@ -42,6 +42,6 @@ namespace FSDPROJAPP.Server.Data
 
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
         }
-        
+
     }
 }

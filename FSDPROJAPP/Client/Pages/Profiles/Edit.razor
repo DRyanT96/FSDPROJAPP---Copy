@@ -1,0 +1,24 @@
+﻿@page "/profiles/edit/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Colour</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditProfile" profile="profile" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Profile? profile = new Profile();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        profile = await _client.GetFromJsonAsync<Profile>($"{Endpoints.ProfilesEndpoint}/{id}");
+    }
+
+    async Task  EditProfile()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.ProfilesEndpoint}/{id}", profile);
+        _navManager.NavigateTo("/profiles/");
+    }
+}

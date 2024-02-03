@@ -1,0 +1,100 @@
+﻿@page "/profiles/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Profiles</h3>
+<hr />
+<br />
+
+<EditForm Detail="@profile" OnValidSubmit="CreateProfile">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Hobby: </label>
+        <div>
+            <InputSelect @bind-Value="profile.HobbyId" class="form-control">
+                <option value="">-- Select Hobby --</option>
+                @if (Hobbys != null)
+                {
+                    foreach (var hobby in Hobbys)
+                    {
+                        <option value="@hobby.Id">@hobby.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => profile.HobbyId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Detail: </label>
+        <div>
+            <InputSelect @bind-Value="profile.DislikeId" class="form-control">
+                <option value="">-- Select Detail --</option>
+                @if (Details != null)
+                {
+                    foreach (var detail in Details)
+                    {
+                        <option value="@detail.Id">@detail.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => profile.DetailId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Dislike: </label>
+        <div>
+            <InputSelect @bind-Value="profile.DetailId" class="form-control">
+                <option value="">-- Select Dislike --</option>
+                @if (Dislikes != null)
+                {
+                    foreach (var dislike in Dislikes)
+                    {
+                        <option value="@dislike.Id">@dislike.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => profile.DislikeId)" />
+        </div>
+    </div>
+
+    
+
+    <div class="form-group">
+        <label>Phone Number: </label>
+        <div>
+            <InputText @bind-Value="@profile.Phonenumber" class="form-control" />
+            <ValidationMessage For="@(() => profile.Phonenumber)" />
+        </div>
+    </div>
+
+    
+    <br />
+    <button type="submit" class="btn btn-success btn-block">
+        Create Profile
+    </button>
+</EditForm>
+
+@code {
+    Profile profile = new Profile();
+
+    private IList<Hobby>? Hobbys;
+    private IList<Detail>? Details;
+    private IList<Dislike>? Dislikes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Hobbys = await _client.GetFromJsonAsync<List<Hobby>>($"{Endpoints.HobbysEndpoint}");
+        Details = await _client.GetFromJsonAsync<List<Detail>>($"{Endpoints.DetailsEndpoint}");
+        Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");
+    }
+
+    private async Task CreateProfile()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ProfilesEndpoint, profile);
+        _navManager.NavigateTo("/profiles/");
+    }
+}
