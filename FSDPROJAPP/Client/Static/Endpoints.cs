@@ -9,6 +9,7 @@ namespace FSDPROJAPP.Client.Static
         private static readonly string Prefix = "api";
 
         public static readonly string HobbysEndpoint = $"{Prefix}/hobbys";
+        public static readonly string UsernamesEndpoint = $"{Prefix}/usernames";
         public static readonly string DetailsEndpoint = $"{Prefix}/details";
         public static readonly string DislikesEndpoint = $"{Prefix}/dislikes";
         public static readonly string LikesEndpoint = $"{Prefix}/likes";

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FSDPROJAPP.Shared.Domain
 {
-    public class Booking : BaseDomainModel, IValidatableObject
+    public class Subscription : BaseDomainModel, IValidatableObject
     {
         [Required]
         [DataType(DataType.Date)]

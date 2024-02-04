@@ -1,0 +1,27 @@
+﻿@page "/usernames/create/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Username</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Username" username="username" OnValidSubmit="@CreateUsername" />
+
+@code {
+    Username username = new Username();
+
+    private IList<Username>? Usernames;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Usernames = await _client.GetFromJsonAsync<List<Username>>($"{Endpoints.UsernamesEndpoint}");
+    }
+
+    private async Task CreateUsername()
+    {
+        await _client.PostAsJsonAsync(Endpoints.UsernamesEndpoint, username);
+        _navManager.NavigateTo("/usernames/");
+    }
+}

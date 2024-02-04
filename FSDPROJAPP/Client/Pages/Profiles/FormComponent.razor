@@ -4,6 +4,24 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled="@Disabled">
+
+        <div class="form-group">
+            <label>Name: </label>
+            <div>
+                <InputSelect @bind-Value="profile.UsernameId" class="form-control">
+                    <option value="">-- Select Name --</option>
+                    @if (Usernames != null)
+                    {
+                        foreach (var username in Usernames)
+                        {
+                            <option value="@username.Id">@username.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => profile.UsernameId)" />
+            </div>
+        </div>
+
         <div class="form-group">
             <label>Hobby: </label>
             <div>
@@ -71,6 +89,8 @@
                 <ValidationMessage For="@(() => profile.LikeId)" />
             </div>
         </div>
+
+        
         @*
         <div class="form-group">
             <label>Year: </label>
@@ -113,6 +133,7 @@
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
+    private IList<Username>? Usernames;
     private IList<Hobby>? Hobbys;
     private IList<Detail>? Details;
     private IList<Dislike>? Dislikes;
@@ -120,6 +141,7 @@
 
     protected async override Task OnInitializedAsync()
     {
+        Usernames = await _client.GetFromJsonAsync<List<Username>>($"{Endpoints.UsernamesEndpoint}");
         Hobbys = await _client.GetFromJsonAsync<List<Hobby>>($"{Endpoints.HobbysEndpoint}");
         Details = await _client.GetFromJsonAsync<List<Detail>>($"{Endpoints.DetailsEndpoint}");
         Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");

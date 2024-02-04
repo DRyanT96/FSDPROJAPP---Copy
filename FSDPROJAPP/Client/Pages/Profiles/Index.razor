@@ -24,6 +24,7 @@ else
     <table class="table table-responsive">
         <thead>
             <tr>
+                <th>Name</th>
                 <th>Hobby</th>
                 <th>Detail</th>
                 <th>Dislike</th>
@@ -37,6 +38,7 @@ else
             @foreach (var profile in Profiles)
             {
                 <tr>
+                    <td>@profile.Username.Name</td>
                     <td>@profile.Hobby.Name</td>
                     <td>@profile.Detail.Name</td>
                     <td>@profile.Dislike.Name</td>

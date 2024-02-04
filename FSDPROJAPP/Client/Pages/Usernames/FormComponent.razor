@@ -1,0 +1,29 @@
+﻿@using FSDPROJAPP.Shared.Domain
+<EditForm Model="@username" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disabled ="@Disabled">
+        <div class="form-group">
+            <label>Name: </label>
+            <div>
+                <InputText @bind-Value="@username.Name" class="form-control" />
+                <ValidationMessage For="@(() => username.Name)" />
+            </div>
+        </div>
+    </fieldset>
+    <br />
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
+    <BackToList Target="usernames" />
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Username? username { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

@@ -9,7 +9,8 @@ namespace FSDPROJAPP.Shared.Domain
     public class Profile : BaseDomainModel
     {
         public string? Gender { get; set; }
-        //public string? Name { get; set; }
+        public int? UsernameId { get; set; }
+        public virtual Username? Username { get; set; }
         public int Phonenumber {  get; set; }
 
         public int? DetailId { get; set; }

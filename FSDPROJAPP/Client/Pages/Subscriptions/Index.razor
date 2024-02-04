@@ -28,7 +28,7 @@ else
                 
                 <th>Date</th>
                 <th>Duration in days</th>
-                <th>Phone Number</th>
+                @*<th>Phone Number</th>*@
                 <th>Actions</th>
             </tr>
         </thead>
@@ -40,7 +40,7 @@ else
                     @*<td>@subscription.Customer.DrivingLicense</td>*@
                     <td>@subscription.DateCreated.Date.ToString("dd MMMM yyyy")</td>
                     <td>@(subscription.DateIn != null ? (subscription.DateIn.Value - subscription.DateOut).TotalDays.ToString() : "To Be Determined")</td>
-                    <td>@subscription.Profile.Phonenumber</td>
+                    @*<td>@subscription.Profile.Phonenumber</td>*@
                     <td>
                         <a href="/subscriptions/view/@subscription.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>

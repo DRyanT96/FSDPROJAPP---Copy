@@ -13,6 +13,7 @@ namespace FSDPROJAPP.Server.IRepository
     {
         Task Save(HttpContext httpContext);
         IGenericRepository<Hobby> Hobbys { get; }
+        IGenericRepository<Username> Usernames { get; }
         IGenericRepository<Detail> Details { get; }
         IGenericRepository<Dislike> Dislikes { get; }
         IGenericRepository<Like> Likes { get; }

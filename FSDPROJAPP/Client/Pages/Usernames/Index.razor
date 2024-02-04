@@ -1,0 +1,74 @@
+﻿@page "/usernames/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">Your Name</h3>
+<br />
+
+<a href="/usernames/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Username
+</a>
+<br />
+<br />
+
+@if (Usernames == null)
+{
+    <div class="alert alert-info">Loading Usernames...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Names</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var username in Usernames)
+            {
+                <tr>
+                    <td>@username.Name</td>
+                    <td>
+                        <a href="/usernames/view/@username.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/usernames/edit/@username.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(username.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Username>? Usernames;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Usernames = await _client.GetFromJsonAsync<List<Username>>($"{Endpoints.UsernamesEndpoint}");
+    }
+
+    async Task Delete(int usernameId)
+    {
+        if (Usernames != null)
+        {
+            var username = Usernames.First(q => q.Id == usernameId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {username.Name}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.UsernamesEndpoint}/{usernameId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

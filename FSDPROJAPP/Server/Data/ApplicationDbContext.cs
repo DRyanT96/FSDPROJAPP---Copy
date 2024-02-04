@@ -23,6 +23,7 @@ namespace FSDPROJAPP.Server.Data
         public DbSet<Hobby> Hobbys { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Dislike> Dislikes { get; set; }
+        public DbSet<Username> Usernames { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,6 +42,8 @@ namespace FSDPROJAPP.Server.Data
             builder.ApplyConfiguration(new UserSeedConfiguration());
 
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
+
+            //builder.ApplyConfiguration(new UsernameSeedConfiguration());
         }
 
     }

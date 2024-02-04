@@ -9,7 +9,7 @@ using FSDPROJAPP.Server.Data;
 using FSDPROJAPP.Shared.Domain;
 using FSDPROJAPP.Server.IRepository;
 using SQLitePCL;
-using FSDPROJAPP.Server.IRepository;
+
 
 namespace FSDPROJAPP.Server.Controllers
 {
@@ -73,6 +73,7 @@ namespace FSDPROJAPP.Server.Controllers
         // PUT: api/Subscriptions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+
         public async Task<IActionResult> PutSubscription(int id, Subscription Subscription)
         {
             if (id != Subscription.Id)

@@ -43,7 +43,7 @@ namespace FSDPROJAPP.Server.Controllers
             //    return NotFound();
             //}
             //  return await _context.Profiles.ToListAsync();
-            var profiles = await _unitOfWork.Profiles.GetAll(includes: q => q.Include(x => x.Hobby).Include(x => x.Detail).Include(x => x.Dislike).Include(x => x.Like));
+            var profiles = await _unitOfWork.Profiles.GetAll(includes: q => q.Include(x => x.Hobby).Include(x => x.Detail).Include(x => x.Dislike).Include(x => x.Like).Include(x => x.Username));
             return Ok(profiles);
         }
 

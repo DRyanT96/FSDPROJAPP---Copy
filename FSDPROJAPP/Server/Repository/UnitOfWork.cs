@@ -22,6 +22,7 @@ namespace FSDPROJAPP.Server.Repository
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<Hobby> _hobbys;
+        private IGenericRepository<Username> _usernames;
         private IGenericRepository<Detail> _details;
         private IGenericRepository<Dislike> _dislikes;
         private IGenericRepository<Like> _likes;
@@ -38,6 +39,8 @@ namespace FSDPROJAPP.Server.Repository
 
         public IGenericRepository<Hobby> Hobbys
             => _hobbys ??= new GenericRepository<Hobby>(_context);
+        public IGenericRepository<Username> Usernames
+            => _usernames ??= new GenericRepository<Username>(_context);
         public IGenericRepository<Detail> Details
             => _details ??= new GenericRepository<Detail>(_context);
         public IGenericRepository<Dislike> Dislikes

@@ -1,8 +1,11 @@
 ﻿@page "/dislikes/"
+@using FSDPROJAPP.Client.Services
 @using FSDPROJAPP.Shared.Domain
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 
 <h3 class="card-title">Dislikes</h3>
@@ -55,6 +58,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");
     }
 
@@ -70,5 +74,10 @@ else
                 await OnInitializedAsync();
             }
         }
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }
