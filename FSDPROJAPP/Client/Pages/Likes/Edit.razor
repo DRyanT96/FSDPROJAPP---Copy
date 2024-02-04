@@ -1,0 +1,24 @@
+﻿@page "/likes/edit/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Like</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditLike" like="like" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Like? like = new Like();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        like = await _client.GetFromJsonAsync<Like>($"{Endpoints.LikesEndpoint}/{id}");
+    }
+
+    async Task  EditLike()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.LikesEndpoint}/{id}", like);
+        _navManager.NavigateTo("/likes/");
+    }
+}

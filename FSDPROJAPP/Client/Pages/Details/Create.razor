@@ -1,0 +1,27 @@
+﻿@page "/details/create/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Detail</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Detail" detail="detail" OnValidSubmit="@CreateDetail" />
+
+@code {
+    Detail detail = new Detail();
+
+    private IList<Detail>? Details;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Details = await _client.GetFromJsonAsync<List<Detail>>($"{Endpoints.DetailsEndpoint}");
+    }
+
+    private async Task CreateDetail()
+    {
+        await _client.PostAsJsonAsync(Endpoints.DetailsEndpoint, detail);
+        _navManager.NavigateTo("/details/");
+    }
+}

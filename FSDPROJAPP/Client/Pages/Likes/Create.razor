@@ -1,0 +1,27 @@
+﻿@page "/likes/create/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Like</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Like" like="like" OnValidSubmit="@CreateLike" />
+
+@code {
+    Like like = new Like();
+
+    private IList<Like>? Likes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Likes = await _client.GetFromJsonAsync<List<Like>>($"{Endpoints.LikesEndpoint}");
+    }
+
+    private async Task CreateLike()
+    {
+        await _client.PostAsJsonAsync(Endpoints.LikesEndpoint, like);
+        _navManager.NavigateTo("/likes/");
+    }
+}

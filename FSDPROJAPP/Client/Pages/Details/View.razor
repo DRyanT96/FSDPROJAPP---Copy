@@ -1,0 +1,20 @@
+﻿@page "/details/view/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent detail="detail" Disabled="true" />
+
+
+@code {
+    [Parameter] public int id { get; set; }
+    Detail? detail = new Detail();
+    protected async override Task OnParametersSetAsync()
+    {
+        detail = await
+        _client.GetFromJsonAsync<Detail>($"{Endpoints.DetailsEndpoint}/{id}");
+    }
+}
+

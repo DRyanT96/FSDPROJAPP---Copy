@@ -1,0 +1,24 @@
+﻿@page "/dislikes/edit/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Dislike</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditDislike" dislike="dislike" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Dislike? dislike = new Dislike();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        dislike = await _client.GetFromJsonAsync<Dislike>($"{Endpoints.DislikesEndpoint}/{id}");
+    }
+
+    async Task  EditDislike()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.DislikesEndpoint}/{id}", dislike);
+        _navManager.NavigateTo("/dislikes/");
+    }
+}

@@ -2,7 +2,7 @@
 
 namespace FSDPROJAPP.Shared.Domain
 {
-    public class Subscription : BaseDomainModel
+    public class Subscription : BaseDomainModel, IValidatableObject
     {
         public DateTime DateOut { get; set; }
         public DateTime DateIn { get; set; }

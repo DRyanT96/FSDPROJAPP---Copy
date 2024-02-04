@@ -1,0 +1,19 @@
+﻿@page "/likes/view/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent like="like" Disabled="true" />
+
+
+@code {
+    [Parameter] public int id { get; set; }
+    Like? like = new Like();
+    protected async override Task OnParametersSetAsync()
+    {
+        like = await
+        _client.GetFromJsonAsync<Like>($"{Endpoints.LikesEndpoint}/{id}");
+    }
+}

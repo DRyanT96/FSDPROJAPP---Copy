@@ -1,0 +1,27 @@
+﻿@page "/dislikes/create/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Dislike</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Dislike" dislike="dislike" OnValidSubmit="@CreateDislike" />
+
+@code {
+    Dislike dislike = new Dislike();
+
+    private IList<Dislike>? Dislikes;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");
+    }
+
+    private async Task CreateDislike()
+    {
+        await _client.PostAsJsonAsync(Endpoints.DislikesEndpoint, dislike);
+        _navManager.NavigateTo("/dislikes/");
+    }
+}

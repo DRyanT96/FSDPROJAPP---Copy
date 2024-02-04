@@ -1,0 +1,24 @@
+﻿@page "/details/edit/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Detail</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditDetail" detail="detail" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Detail? detail = new Detail();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        detail = await _client.GetFromJsonAsync<Detail>($"{Endpoints.DetailsEndpoint}/{id}");
+    }
+
+    async Task  EditDetail()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.DetailsEndpoint}/{id}", detail);
+        _navManager.NavigateTo("/details/");
+    }
+}

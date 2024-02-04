@@ -1,13 +1,13 @@
 ﻿@using FSDPROJAPP.Shared.Domain
-<EditForm Model="@hobby" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@detail" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled ="@Disabled">
         <div class="form-group">
             <label>Name: </label>
             <div>
-                <InputText @bind-Value="@hobby.Name" class="form-control" />
-                <ValidationMessage For="@(() => hobby.Name)" />
+                <InputText @bind-Value="@detail.Name" class="form-control" />
+                <ValidationMessage For="@(() => detail.Name)" />
             </div>
         </div>
     </fieldset>
@@ -18,12 +18,12 @@
             @ButtonText
         </button>
     }
-    <BackToList Target="hobbys" />
+    <BackToList Target="details" />
 </EditForm>
 
 @code {
     [Parameter] public bool Disabled { get; set; } = false;
-    [Parameter] public Hobby? hobby { get; set; }
+    [Parameter] public Detail? detail { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 }
