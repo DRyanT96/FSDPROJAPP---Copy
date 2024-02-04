@@ -1,11 +1,11 @@
-﻿@page "/Fumble PLUS/"
+﻿@page "/subscriptions/"
 @using FSDPROJAPP.Shared.Domain
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
 @implements IDisposable
 
-<h3 class="card-title">Fumble PLUS</h3>
+<h3 class="card-title">Subscriptions</h3>
 <br />
 
 <a href="/subscriptions/create" class="btn btn-secondary">
@@ -25,7 +25,7 @@ else
         <thead>
             <tr>
                 <th>Subscription Id</th>
-                @*<th>Customer License</th>*@
+                
                 <th>Date</th>
                 <th>Duration in days</th>
                 <th>Phone Number</th>
@@ -39,7 +39,7 @@ else
                     <td>@subscription.Id</td>
                     @*<td>@subscription.Customer.DrivingLicense</td>*@
                     <td>@subscription.DateCreated.Date.ToString("dd MMMM yyyy")</td>
-                    <td>@(subscription.DateIn != null ? (subscription.DateIn - subscription.DateOut).TotalDays.ToString() : "To Be Determined")</td>
+                    <td>@(subscription.DateIn != null ? (subscription.DateIn.Value - subscription.DateOut).TotalDays.ToString() : "To Be Determined")</td>
                     <td>@subscription.Profile.Phonenumber</td>
                     <td>
                         <a href="/subscriptions/view/@subscription.Id" class="btn btn-primary">

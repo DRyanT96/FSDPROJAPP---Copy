@@ -11,12 +11,12 @@
     [Parameter] public int id { get; set; }
     Profile? profile = new Profile();
 
-    protected  async override Task OnParametersSetAsync()
+    protected async override Task OnParametersSetAsync()
     {
         profile = await _client.GetFromJsonAsync<Profile>($"{Endpoints.ProfilesEndpoint}/{id}");
     }
 
-    async Task  EditProfile()
+    async Task EditProfile()
     {
         await _client.PutAsJsonAsync($"{Endpoints.ProfilesEndpoint}/{id}", profile);
         _navManager.NavigateTo("/profiles/");

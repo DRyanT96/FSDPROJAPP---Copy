@@ -1,0 +1,89 @@
+﻿@page "/subscriptions/create/"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Subscription</h3>
+<hr />
+<br />
+
+<EditForm Model="@subscription" OnValidSubmit="CreateSubscription">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Profile: </label>
+        <div>
+            <InputSelect @bind-Value="subscription.ProfileId" class="form-control">
+                <option value="">-- Select Profile --</option>
+                @if (Profiles != null)
+                {
+                    foreach (var profile in Profiles)
+                    {
+                        <option value="@profile.Id">@profile.Hobby.Name @profile.Detail.Name -- @profile.Phonenumber</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => subscription.ProfileId)" />
+        </div>
+    </div>
+    @*
+    <div class="form-group">
+        <label>Customer: </label>
+        <div>
+            <InputSelect @bind-Value="subscription.CustomerId" class="form-control">
+                <option value="">-- Select Customer --</option>
+                @if (Customers != null)
+                {
+                    foreach (var customer in Customers)
+                    {
+                        <option value="@customer.Id">@customer.FirstName -- @customer.DrivingLicense</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => subscription.CustomerId)" />
+        </div>
+    </div>
+    *@
+    <div class="form-group">
+        <label>Date Out: </label>
+        <div>
+            <InputDate @bind-Value="subscription.DateOut" class="form-control">
+                @if (subscription.Id > 0)
+                {
+                    <div class="form-group">
+                        <label>Date In: </label>
+                        <div>
+                            <InputDate @bind-Value="@subscription.DateIn" class="form-control" />
+                            <ValidationMessage For="@(() => subscription.DateIn)" />
+                        </div>
+                    </div>
+                }
+            </InputDate>
+            <ValidationMessage For="@(() => subscription.DateOut)" />
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success btn-block">
+        Create Subscription
+    </button>
+</EditForm>
+
+@code {
+    Subscription subscription = new Subscription();
+
+    private IList<Profile>? Profiles;
+    @*private IList<Customer>? Customers;*@
+
+    protected async override Task OnInitializedAsync()
+    {
+        Profiles = await _client.GetFromJsonAsync<List<Profile>>($"{Endpoints.ProfilesEndpoint}");
+        @*Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");*@
+    }
+
+    private async Task CreateSubscription()
+    {
+        await _client.PostAsJsonAsync(Endpoints.SubscriptionsEndpoint, subscription);
+        _navManager.NavigateTo("/subscriptions/");
+    }
+}

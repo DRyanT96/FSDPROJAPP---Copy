@@ -1,6 +1,5 @@
 ﻿@page "/profiles/create/"
 @using FSDPROJAPP.Shared.Domain
-
 @inject HttpClient _client
 @inject NavigationManager _navManager
 
@@ -8,7 +7,7 @@
 <hr />
 <br />
 
-<EditForm Detail="@profile" OnValidSubmit="CreateProfile">
+<EditForm Model="@profile" OnValidSubmit="CreateProfile">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -26,6 +25,23 @@
                 }
             </InputSelect>
             <ValidationMessage For="@(() => profile.HobbyId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Like: </label>
+        <div>
+            <InputSelect @bind-Value="profile.LikeId" class="form-control">
+                <option value="">-- Select Like --</option>
+                @if (Likes != null)
+                {
+                    foreach (var like in Likes)
+                    {
+                        <option value="@like.Id">@like.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => profile.LikeId)" />
         </div>
     </div>
 
@@ -63,8 +79,15 @@
         </div>
     </div>
 
-    
     @*
+    <div class="form-group">
+        <label>Year: </label>
+        <div>
+            <InputNumber @bind-Value="@profile.Year" class="form-control" />
+            <ValidationMessage For="@(() => profile.Year)" />
+        </div>
+    </div>
+
     <div class="form-group">
         <label>Phone Number: </label>
         <div>
@@ -72,8 +95,15 @@
             <ValidationMessage For="@(() => profile.Phonenumber)" />
         </div>
     </div>
-    *@
     
+    <div class="form-group">
+        <label>Daily Rate: </label>
+        <div>
+            <InputNumber @bind-Value="@profile.RentalRate" class="form-control" />
+            <ValidationMessage For="@(() => profile.RentalRate)" />
+        </div>
+    </div>
+    *@
     <br />
     <button type="submit" class="btn btn-success btn-block">
         Create Profile
@@ -86,12 +116,14 @@
     private IList<Hobby>? Hobbys;
     private IList<Detail>? Details;
     private IList<Dislike>? Dislikes;
+    private IList<Like>? Likes;
 
     protected async override Task OnInitializedAsync()
     {
         Hobbys = await _client.GetFromJsonAsync<List<Hobby>>($"{Endpoints.HobbysEndpoint}");
         Details = await _client.GetFromJsonAsync<List<Detail>>($"{Endpoints.DetailsEndpoint}");
         Dislikes = await _client.GetFromJsonAsync<List<Dislike>>($"{Endpoints.DislikesEndpoint}");
+        Likes = await _client.GetFromJsonAsync<List<Like>>($"{Endpoints.LikesEndpoint}");
     }
 
     private async Task CreateProfile()

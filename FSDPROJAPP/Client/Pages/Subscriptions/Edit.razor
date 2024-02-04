@@ -1,0 +1,24 @@
+﻿@page "/subscriptions/edit/{id:int}"
+@using FSDPROJAPP.Shared.Domain
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Subscription</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditSubscription" subscription="subscription" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Subscription? subscription = new Subscription();
+
+    protected  async override Task OnParametersSetAsync()
+    {
+        subscription = await _client.GetFromJsonAsync<Subscription>($"{Endpoints.SubscriptionsEndpoint}/{id}");
+    }
+
+    async Task  EditSubscription()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.SubscriptionsEndpoint}/{id}", subscription);
+        _navManager.NavigateTo("/subscriptions/");
+    }
+}

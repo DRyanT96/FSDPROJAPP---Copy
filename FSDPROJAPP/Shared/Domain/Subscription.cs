@@ -1,15 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FSDPROJAPP.Shared.Domain;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace FSDPROJAPP.Shared.Domain
 {
-    public class Subscription : BaseDomainModel, IValidatableObject
+    public class Booking : BaseDomainModel, IValidatableObject
     {
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime DateOut { get; set; }
-        public DateTime DateIn { get; set; }
-        public int profileId { get; set; }
+        public DateTime? DateIn { get; set; }
+        [Required]
+        public int? ProfileId { get; set; }
         public virtual Profile? Profile { get; set; }
-        //public int PreferenceId { get; set; }
-        //public virtual Preference? Preference { get; set; }
+        
+        
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -23,6 +30,5 @@ namespace FSDPROJAPP.Shared.Domain
                 }
             }
         }
-
     }
 }

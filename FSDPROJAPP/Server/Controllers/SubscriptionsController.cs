@@ -43,8 +43,8 @@ namespace FSDPROJAPP.Server.Controllers
             //    return NotFound();
             //}
             //  return await _context.Subscriptions.ToListAsync();
-            var subscriptions = await _unitOfWork.Subscriptions.GetAll();
-            return Ok(subscriptions);
+            var Subscriptions = await _unitOfWork.Subscriptions.GetAll(includes: q => q.Include(x => x.Profile));
+            return Ok(Subscriptions);
         }
 
         // GET: api/Subscriptions/5
@@ -58,31 +58,31 @@ namespace FSDPROJAPP.Server.Controllers
             //{
             //    return NotFound();
             //}
-            //var subscription = await _context.Subscriptions.FindAsync(id);
-            var subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
+            //var Subscription = await _context.Subscriptions.FindAsync(id);
+            var Subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
 
-            if (subscription == null)
+            if (Subscription == null)
             {
                 return NotFound();
             }
 
             //Refactored
-            return Ok(subscription);
+            return Ok(Subscription);
         }
 
         // PUT: api/Subscriptions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSubscription(int id, Subscription subscription)
+        public async Task<IActionResult> PutSubscription(int id, Subscription Subscription)
         {
-            if (id != subscription.Id)
+            if (id != Subscription.Id)
             {
                 return BadRequest();
             }
 
             //Refactored
-            //_context.Entry(subscription).State = EntityState.Modified;
-            _unitOfWork.Subscriptions.Update(subscription);
+            //_context.Entry(Subscription).State = EntityState.Modified;
+            _unitOfWork.Subscriptions.Update(Subscription);
 
             try
             {
@@ -110,21 +110,21 @@ namespace FSDPROJAPP.Server.Controllers
         // POST: api/Subscriptions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Subscription>> PostSubscription(Subscription subscription)
+        public async Task<ActionResult<Subscription>> PostSubscription(Subscription Subscription)
         {
             //Refactored
             //if (_context.Subscriptions == null)
             //{
             //    return Problem("Entity set 'ApplicationDbContext.Subscriptions'  is null.");
             //}
-            //  _context.Subscriptions.Add(subscription);
+            //  _context.Subscriptions.Add(Subscription);
             //  await _context.SaveChangesAsync();
 
-            //  return CreatedAtAction("GetSubscription", new { id = subscription.Id }, subscription);
-            await _unitOfWork.Subscriptions.Insert(subscription);
+            //  return CreatedAtAction("GetSubscription", new { id = Subscription.Id }, Subscription);
+            await _unitOfWork.Subscriptions.Insert(Subscription);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetSubscription", new { id = subscription.Id }, subscription);
+            return CreatedAtAction("GetSubscription", new { id = Subscription.Id }, Subscription);
         }
 
         // DELETE: api/Subscriptions/5
@@ -136,19 +136,19 @@ namespace FSDPROJAPP.Server.Controllers
             //{
             //    return NotFound();
             //}
-            //var subscription = await _context.Subscriptions.FindAsync(id);
-            //if (subscription == null)
+            //var Subscription = await _context.Subscriptions.FindAsync(id);
+            //if (Subscription == null)
             //{
             //    return NotFound();
             //}
-            var subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
-            if (subscription == null)
+            var Subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
+            if (Subscription == null)
             {
                 return NotFound();
             }
 
             //Refactored
-            //_context.Subscriptions.Remove(subscription);
+            //_context.Subscriptions.Remove(Subscription);
             //await _context.SaveChangesAsync();
             await _unitOfWork.Subscriptions.Delete(id);
             await _unitOfWork.Save(HttpContext);
@@ -161,8 +161,8 @@ namespace FSDPROJAPP.Server.Controllers
         {
             //Refactored
             //return (_context.Subscriptions?.Any(e => e.Id == id)).GetValueOrDefault();
-            var subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
-            return subscription != null;
+            var Subscription = await _unitOfWork.Subscriptions.Get(q => q.Id == id);
+            return Subscription != null;
         }
     }
 }
