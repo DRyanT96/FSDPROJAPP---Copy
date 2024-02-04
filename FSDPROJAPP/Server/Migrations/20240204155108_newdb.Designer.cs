@@ -9,18 +9,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FSDPROJAPP.Server.Data.Migrations
+namespace FSDPROJAPP.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240117172148_AddApplicationTables")]
-    partial class AddApplicationTables
+    [Migration("20240204155108_newdb")]
+    partial class newdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("ProductVersion", "7.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -235,6 +235,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ea594129-c0d1-4475-b8a2-fd53a241274e",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIos7GPB+QOKqiQ8HONaO6ILqyfuIlXASYxDLFoaV/Jjbw9OjJFQEmn8r+QTs9LGgg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9c885936-e714-4586-be13-6c17433398a2",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Detail", b =>
@@ -263,6 +283,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Details");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6066),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6066),
+                            Name = "Detail-1",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6068),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6068),
+                            Name = "Detail-2",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Dislike", b =>
@@ -291,6 +331,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dislikes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6659),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6659),
+                            Name = "Matcha",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6661),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6662),
+                            Name = "Shopping",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Hobby", b =>
@@ -319,6 +379,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hobbys");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(5599),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(5615),
+                            Name = "Soccer",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(5618),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(5619),
+                            Name = "Basketball",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Like", b =>
@@ -347,43 +427,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Likes");
-                });
 
-            modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Preference", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AgeRange")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DistanceRange")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("preferedGender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("relationshipType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Preferences");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6286),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6287),
+                            Name = "The Color Blue",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6288),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 253, DateTimeKind.Local).AddTicks(6289),
+                            Name = "Rich Guys",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Profile", b =>
@@ -406,26 +469,26 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.Property<int?>("DetailId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DislikeId")
+                    b.Property<int?>("DislikeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HobbyId")
+                    b.Property<int?>("HobbyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LikeId")
+                    b.Property<int?>("LikeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Phonenumber")
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UsernameId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -436,6 +499,8 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasIndex("HobbyId");
 
                     b.HasIndex("LikeId");
+
+                    b.HasIndex("UsernameId");
 
                     b.ToTable("Profiles");
                 });
@@ -454,7 +519,7 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateIn")
+                    b.Property<DateTime?>("DateIn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOut")
@@ -463,22 +528,57 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PreferenceId")
+                    b.Property<int?>("ProfileId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("profileId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Subscriptions");
+                });
+
+            modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Username", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PreferenceId");
+                    b.ToTable("Usernames");
 
-                    b.HasIndex("profileId");
-
-                    b.ToTable("Subscriptions");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2024, 2, 4, 23, 51, 8, 307, DateTimeKind.Local).AddTicks(8446),
+                            DateUpdated = new DateTime(2024, 2, 4, 23, 51, 8, 307, DateTimeKind.Local).AddTicks(8465),
+                            Name = "Bryan",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -506,6 +606,20 @@ namespace FSDPROJAPP.Server.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -595,6 +709,13 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -626,21 +747,19 @@ namespace FSDPROJAPP.Server.Data.Migrations
 
                     b.HasOne("FSDPROJAPP.Shared.Domain.Dislike", "Dislike")
                         .WithMany()
-                        .HasForeignKey("DislikeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DislikeId");
 
                     b.HasOne("FSDPROJAPP.Shared.Domain.Hobby", "Hobby")
                         .WithMany()
-                        .HasForeignKey("HobbyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HobbyId");
 
                     b.HasOne("FSDPROJAPP.Shared.Domain.Like", "Like")
                         .WithMany()
-                        .HasForeignKey("LikeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LikeId");
+
+                    b.HasOne("FSDPROJAPP.Shared.Domain.Username", "Username")
+                        .WithMany()
+                        .HasForeignKey("UsernameId");
 
                     b.Navigation("Detail");
 
@@ -649,23 +768,17 @@ namespace FSDPROJAPP.Server.Data.Migrations
                     b.Navigation("Hobby");
 
                     b.Navigation("Like");
+
+                    b.Navigation("Username");
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Subscription", b =>
                 {
-                    b.HasOne("FSDPROJAPP.Shared.Domain.Preference", "Preference")
-                        .WithMany("Subscriptions")
-                        .HasForeignKey("PreferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FSDPROJAPP.Shared.Domain.Profile", "Profile")
                         .WithMany("Subscriptions")
-                        .HasForeignKey("profileId")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Preference");
 
                     b.Navigation("Profile");
                 });
@@ -719,11 +832,6 @@ namespace FSDPROJAPP.Server.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Preference", b =>
-                {
-                    b.Navigation("Subscriptions");
                 });
 
             modelBuilder.Entity("FSDPROJAPP.Shared.Domain.Profile", b =>

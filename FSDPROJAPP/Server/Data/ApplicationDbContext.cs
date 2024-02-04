@@ -43,7 +43,7 @@ namespace FSDPROJAPP.Server.Data
 
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
 
-            //builder.ApplyConfiguration(new UsernameSeedConfiguration());
+            builder.ApplyConfiguration(new UsernameSeedConfiguration());
         }
 
     }
